@@ -22,7 +22,7 @@ jobs:
         
     - name: Run PMD Analysis
       # Melakukan inspeksi kualitas kode (Code Quality) menggunakan PMD
-      run: mvn -B pmd:pmd pmd:check -Dpmd.printFailingErrors=true --file pom.xml || true
+      run: mvn -B pmd:pmd pmd:check -Dpmd.printFailingErrors=true --file pom.xml
 
     - name: Run Checkstyle
       # Melakukan pengecekan format kode menggunakan Checkstyle
