@@ -1,0 +1,32 @@
+name: Continuous Delivery (CD)
+
+on:
+  push:
+    # CD biasanya hanya berjalan jika ada perubahan di branch utama (main/master)
+    branches: [ "main", "master" ]
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK 22
+      uses: actions/setup-java@v4
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Build Application (Packaging)
+      # Membangun file .jar aplikasi tanpa menjalankan ulang testing
+      run: mvn -B package -DskipTests --file pom.xml
+      
+    - name: Upload JAR Artifact
+      # Mengunggah hasil build (.jar) agar bisa didownload oleh user/dosen
+      uses: actions/upload-artifact@v4
+      with:
+        name: Aplikasi-Tubes-DPBO
+        path: target/*.jar
+        retention-days: 14
