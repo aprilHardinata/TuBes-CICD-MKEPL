@@ -2,7 +2,7 @@ name: Code Inspection
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "dev2", "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
 
@@ -26,4 +26,4 @@ jobs:
 
     - name: Run Checkstyle
       # Melakukan pengecekan format kode menggunakan Checkstyle
-      run: mvn -B checkstyle:check --file pom.xml || true
+      run: mvn -B checkstyle:check --file pom.xml
