@@ -2,11 +2,12 @@ name: Continuous Delivery (CD)
 
 on:
   push:
-    branches: [ "dev2", "main", "master" ]
+    branches: [ "dev2","main", "master" ]
   workflow_dispatch:
 
 permissions:
-  contents: read
+  # PENTING: 'write' supaya sistem diizinkan membuat Release baru di halaman depan
+  contents: write
 
 jobs:
   deliver:
@@ -25,10 +26,12 @@ jobs:
     - name: Build application (packaging)
       run: mvn -B package -DskipTests --file pom.xml
 
-    - name: Upload JAR artifact
-      uses: actions/upload-artifact@v4
+    # -------------------------------------------------------------
+    # Memunculkan aplikasi di menu 'Releases'
+    # -------------------------------------------------------------
+    - name: Create Release and Upload JAR
+      uses: softprops/action-gh-release@v2
       with:
-        name: Aplikasi-Tubes-DPBO
-        path: target/tubes-dpbo-kel4-*.jar
-        if-no-files-found: error
-        retention-days: 14
+        tag_name: rilis-v${{ github.run_number }}
+        name: Versi Terbaru (Build ${{ github.run_number }})
+        files: target/tubes-dpbo-kel4-*.jar
